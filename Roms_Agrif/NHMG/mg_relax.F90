@@ -413,12 +413,12 @@ contains
   !----------------------------------------
   subroutine compute_residual_3D_8(res,p,b,r,cA,nx,ny,nz)
 
-    real(kind=rp)                            , intent(out)  :: res
-    real(kind=rp),dimension(:,:,:)  , pointer, intent(inout):: p
-    real(kind=rp),dimension(:,:,:)  , pointer, intent(in)   :: b
-    real(kind=rp),dimension(:,:,:)  , pointer, intent(inout)   :: r
-    real(kind=rp),dimension(:,:,:,:), pointer, intent(in)   :: cA
-    integer(kind=ip)                        , intent(in)   :: nx, ny, nz
+    real(kind=rp)                            , intent(out)   :: res
+    real(kind=rp),dimension(:,:,:)  , pointer, intent(inout) :: p
+    real(kind=rp),dimension(:,:,:)  , pointer, intent(in)    :: b
+    real(kind=rp),dimension(:,:,:)  , pointer, intent(inout) :: r
+    real(kind=rp),dimension(:,:,:,:), pointer, intent(in)    :: cA
+    integer(kind=ip)                        , intent(in)     :: nx, ny, nz
 
     ! Coefficients are stored in order of diagonals
     ! cA(1,:,:,:)      -> p(i  ,j  ,k  )
@@ -432,7 +432,7 @@ contains
 
     integer(kind=ip)           :: i,j,k
 
-    res = 0._8
+    res = 0._rp
 
     k=1 !lower level
     do j = 1,ny

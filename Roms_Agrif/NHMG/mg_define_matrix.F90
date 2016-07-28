@@ -214,9 +214,15 @@ contains
 
     !- Used in compute_rhs -!
     if (lev == 1) then
+
        dzw => grid(lev)%dzw
 
-       dzw(:,:,1) = zr(:,:,1) - zw(:,:,1) !!
+       do j = 0,ny+1
+          do i = 0,nx+1
+             dzw(i,j,1) = zr(i,j,1) - zw(i,j,1) !!
+          enddo
+       enddo
+
        do k = 2,nz
           do j = 0,ny+1
              do i = 0,nx+1
@@ -241,6 +247,7 @@ contains
              enddo
           enddo
        enddo
+
     endif
 
     !- Used also in compute_rhs -!
@@ -260,6 +267,7 @@ contains
     do k = 2,nz
        do j = 0,ny+1
           do i = 0,nx+1
+             Arz = dx(i,j)*dy(i,j)
              cw(i,j,k) = ( Arz / (zr(i,j,k)-zr(i,j,k-1)) ) * &
                   (one + &
                   ( hlf * (zw(i+1,j  ,k)-zw(i-1,j  ,k)) / dx(i,j) )**2 + &
@@ -271,6 +279,7 @@ contains
     k=nz+1
     do j = 0,ny+1
        do i = 0,nx+1
+          Arz = dx(i,j)*dy(i,j)
           cw(i,j,k) = ( Arz / (zw(i,j,k)-zr(i,j,k-1)) ) * &
                (one + &
                ( hlf * (zw(i+1,j  ,k)-zw(i-1,j  ,k)) / dx(i,j) )**2 + &
@@ -396,7 +405,7 @@ contains
        do j = 1,ny 
           do i = 1,nx+1
              cA(6,i,j,k) =  qrt * ( &
-                  (( hlf * (zr(i+1,j  ,k+1)-zr(i-1,j  ,k+1)) / dx(i  ,j) ) * dy(i,j  )) + &
+                  (( hlf * (zr(i+1,j  ,k+1)-zr(i-1,j  ,k+1)) / dx(i  ,j) ) * dy(i  ,j)) + &
                   (( hlf * (zr(i  ,j  ,k  )-zr(i-2,j  ,k  )) / dx(i-1,j) ) * dy(i-1,j)) )     ! Couples with k+1 i-1
              cA(7,i,j,k) =   (qrt * &
                   ( zw(i,j,k+1) - zw(i,j,k) + zw(i-1,j,k+1) - zw(i-1,j,k) ) * &
@@ -472,7 +481,7 @@ contains
              cA(1,i,j,k) = &
                   -cA(2,i,j,k) - cA(2,i  ,j  ,k+1) &
                   -cA(4,i,j,k) - cA(4,i  ,j+1,k  ) &
-                  -cA(7,i,j,k) - cA(7,i  ,j  ,k+1) &
+                  -cA(7,i,j,k) - cA(7,i+1,j  ,k  ) &
                   -cA(6,i,j,k) - cA(6,i+1,j  ,k-1) &
                   -cA(8,i,j,k) - cA(8,i+1,j  ,k+1) & 
                   -cA(3,i,j,k) - cA(3,i  ,j+1,k-1) &
