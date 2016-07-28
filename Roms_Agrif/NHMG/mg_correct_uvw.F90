@@ -81,7 +81,7 @@ contains
     k = nz+1 !surface
     do j = 0,ny+1
        do i = 0,nx+1
-          dzw = zw(i,j,i,k)-zr(i,j,k-1)
+          dzw = zw(i,j,k)-zr(i,j,k-1)
           w(i,j,k-1) = w(i,j,k-1) - one / dzw * (-p(i,j,k-1))
        enddo
     enddo

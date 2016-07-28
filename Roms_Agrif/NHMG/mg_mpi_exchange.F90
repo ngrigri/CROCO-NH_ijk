@@ -1089,7 +1089,7 @@ contains
 
        ! be unpacked only once.
        if (indx.eq.1) then ! south
-          cA(:,1:nx,0)  = recvS
+          cA(:,1:nx,0,:)  = recvS
 
        elseif (indx.eq.2) then ! east
           cA(:,nx+1,1:ny,:) = recvE

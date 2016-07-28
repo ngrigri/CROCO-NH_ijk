@@ -1,0 +1,32 @@
+Environement:
+------------
+module unload intel
+
+module load intel/16.0.2.181 bullxmpi netcdf/4.2
+
+Compiling:
+---------
+select the correct cppdefs.h (using symbolic link) then
+
+Run/jobcomp_curie_croco
+
+Submission:
+----------
+
+ccc_msub run_roms_*.slurm
+
+Profiling :
+----------
+
+Run/jobcomp_curie_croco_prof
+
+module load python 
+
+gprof ./roms_nhmg_prof gmon.out > roms_nhmg_prof.txt
+python /ccc/cont003/home/gen9178/griman/gprof2dot/gprof2dot.py -n0.5 -s roms_nhmg_prof.txt > roms_nhmg_prof.dot
+dot -Teps roms_nhmg_prof.dot -o roms_nhmg_prof.eps
+
+
+gprof ./roms_hydro_prof gmon.out > roms_hydro_prof.txt
+python /ccc/cont003/home/gen9178/griman/gprof2dot/gprof2dot.py -n0.5 -s roms_hydro_prof.txt > roms_hydro_prof.dot
+dot -Teps roms_hydro_prof.dot -o roms_hydro_prof.eps

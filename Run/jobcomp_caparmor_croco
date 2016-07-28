@@ -113,6 +113,8 @@ CPPFLAGS1="$NETCDFINC"
 		echo $CFT1
 		FFLAGS1="-O3 -shared-intel -shared-libgcc -mcmodel=large -w90 -w95 -cm -72 -fno-alias -i4 -r8 -fp-model precise $NETCDFINC"
 		echo $FFLAGS1
+        FFLAGSNH="-g -fast $NETCDFINC"
+        echo $FFLAGSNH
 		LDFLAGS1="-Vaxlib $LDFLAGS1"
 		echo $LDFLAGS1
 #

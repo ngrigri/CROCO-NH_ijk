@@ -42,7 +42,7 @@ contains
 
     integer(kind=ip), intent(in) :: nx, ny, nz
 
-    real(kind=rp), dimension(0:nx+1,0:ny+1), intent(in) :: dxa, dya, zetaa, ha
+    real(kind=rp), dimension(0:nx+1,0:ny+1), target, intent(in) :: dxa, dya, zetaa, ha
     real(kind=rp),                           intent(in) :: hc, theta_b, theta_s
 
 

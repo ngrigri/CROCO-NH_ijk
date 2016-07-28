@@ -40,6 +40,6 @@
       CFT = $(CFT1)
       LDR = $(CFT)
    FFLAGS = $(FFLAGS1)
- FFLAGS90 = $(FFLAGS1)
+ FFLAGS90 = $(FFLAGSNH)
   LDFLAGS =
      LCDF = $(LDFLAGS1)

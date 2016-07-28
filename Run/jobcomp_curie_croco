@@ -112,6 +112,8 @@ CPPFLAGS1="$NETCDFINC"
 		echo $CFT1
 		FFLAGS1="-g -O3 -shared-intel -shared-libgcc -mcmodel=large -fno-alias -i4 -r8 -fp-model precise  $NETCDFINC"
 		echo $FFLAGS1
+        FFLAGSNH="-g -O3 -shared-intel -shared-libgcc -mcmodel=large -fno-alias -i4 -r8 -fp-model precise $NETCDFINC"
+        echo $FFLAGSNH
 		LDFLAGS1="$LDFLAGS1"
 		echo $LDFLAGS1
 #
@@ -240,6 +242,7 @@ fi
 #
 rm -f Makedefs
 echo 's?$(FFLAGS1)?'$FFLAGS1'?g' > flags.tmp
+echo 's?$(FFLAGSNH)?'$FFLAGSNH'?g' >> flags.tmp
 echo 's?$(LDFLAGS1)?'$LDFLAGS1'?g' >> flags.tmp
 echo 's?$(CPP1)?'$CPP1'?g' >> flags.tmp
 echo 's?$(CFT1)?'$CFT1'?g' >> flags.tmp

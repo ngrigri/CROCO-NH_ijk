@@ -123,6 +123,9 @@ if [[ $OS == Linux ]] ; then           # ===== LINUX =====
 		CPP1="cpp -traditional -DLinux -DIfort"
 		CFT1=ifort
 		FFLAGS1="-O3 -72 -fno-alias -i4 -r8 -fp-model precise -xHost -pg -opt-report 3 -opt-report-file=$<.log -opt-report-phase=all -profile-functions -profile-loops=all -profile-loops-report=2 $NETCDFINC"
+		echo $FFLAGS1
+        FFLAGSNH="-g -fast-pg -opt-report 3 -opt-report-file=$<.log -opt-report-phase=all -profile-functions -profile-loops=all -profile-loops-report=2 $NETCDFINC"
+        echo $FFLAGSNH
 		LDFLAGS1="$LDFLAGS1"
 	elif [[ $LINUX_FC == gfortran ]] ; then
 		CPP1="cpp -traditional -DLinux"
@@ -358,6 +361,7 @@ fi
 #
 rm -f Makedefs
 echo 's?$(FFLAGS1)?'$FFLAGS1'?g' > flags.tmp
+echo 's?$(FFLAGSNH)?'$FFLAGSNH'?g' >> flags.tmp
 echo 's?$(LDFLAGS1)?'$LDFLAGS1'?g' >> flags.tmp
 echo 's?$(CPP1)?'$CPP1'?g' >> flags.tmp
 echo 's?$(CFT1)?'$CFT1'?g' >> flags.tmp

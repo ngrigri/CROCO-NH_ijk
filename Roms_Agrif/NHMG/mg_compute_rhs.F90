@@ -110,7 +110,7 @@ contains
           do i = 1,nx+1  ! West  to East
 
              uf(i,j,k) =  qrt                                                  & 
-                  * ( zw(i,j,k+1) - zw(i,j,k) + zw(i-1,j,k+1) - zw(i-1,j,k,j) ) &
+                  * ( zw(i,j,k+1) - zw(i,j,k) + zw(i-1,j,k+1) - zw(i-1,j,k) ) &
                   * ( dy(i,j) + dy(i-1,j) ) * u(i,j,k) &
                   - qrt * ( &
                   + zxdy(i  ,j,k) * dzw(i  ,j,k  ) * w(i  ,j,k-1  ) &
@@ -277,8 +277,8 @@ contains
     enddo
 
     k = nz+1 !surface
-    do j = 1,n
-       do i = 1,nxy
+    do j = 1,ny
+       do i = 1,nx
           wf(i,j,k) = cw(i,j,k) * dzw(i,j,k) * w(i,j,k-1)&
                - hlf * hlf *( &
                + zxdy(i,j,k-1) * ( dx(i  ,j) + dx(i-1,j) ) * u(i  ,j,k-1)   &
