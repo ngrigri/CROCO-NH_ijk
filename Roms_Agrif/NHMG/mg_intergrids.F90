@@ -154,8 +154,10 @@ contains
 
     do k2=1,nz
        k=2*k2-1
+
        do j2=1,ny
           j=2*j2-1
+
           do i2=1,nx
              i=2*i2-1
 
@@ -449,7 +451,8 @@ contains
     enddo
 
     ! top level
-    k = nz*2
+    k  = nz*2
+    k2 = nz
     do j2=1,ny
        j=2*j2-1
        do i2=1,nx

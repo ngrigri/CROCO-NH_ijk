@@ -45,7 +45,6 @@ contains
     real(kind=rp), dimension(0:nx+1,0:ny+1), target, intent(in) :: dxa, dya, zetaa, ha
     real(kind=rp),                           intent(in) :: hc, theta_b, theta_s
 
-
     real(kind=rp), dimension(:,:)  , pointer :: dx, dy, zeta, h
 
     if (myrank==0) write(*,*)' nhydro_matrices:'
@@ -144,6 +143,8 @@ contains
     call toc(1,'nhydro_solve')	
 
     if (myrank==0) write(*,*)' nhydro_solve end !!!'
+
+    stop
  
   end subroutine nhydro_solve
 

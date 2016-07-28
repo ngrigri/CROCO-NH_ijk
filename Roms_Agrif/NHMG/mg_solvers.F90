@@ -49,7 +49,7 @@ contains
 
     nite=0
 
-    res0 = sum(grid(1)%b(1:nz,1:ny,1:nx)**2)
+    res0 = sum(grid(1)%b(1:nx,1:ny,1:nz)**2)
     call global_sum(1,res0,bnorm)
     bnorm = sqrt(bnorm)
 

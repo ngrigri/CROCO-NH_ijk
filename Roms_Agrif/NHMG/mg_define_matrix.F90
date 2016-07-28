@@ -67,13 +67,10 @@ contains
 
        if (lev == 1) then
 
-          !NG: WARNING dx, dy and h model have to be defined 
-          !NG: on (ny,nx) and not on (nx,ny) !!
           grid(lev)%dx  (0:nx+1,0:ny+1) = dx
           grid(lev)%dy  (0:nx+1,0:ny+1) = dy
           grid(lev)%zeta(0:nx+1,0:ny+1) = zeta
           grid(lev)%h   (0:nx+1,0:ny+1) = h
-
 
        else
           nxf =grid(lev-1)%nx
@@ -116,19 +113,19 @@ contains
                   dxf(2:nxf+1:2,1:nyf  :2) + &
                   dxf(2:nxf+1:2,2:nyf+1:2) )
 
-             dyc(1:nyc,1:nxc) = hlf      * ( &
+             dyc(1:nxc,1:nyc) = hlf      * ( &
                   dyf(1:nxf  :2,1:nyf  :2) + &
                   dyf(1:nxf  :2,2:nyf+1:2) + &
                   dyf(2:nxf+1:2,1:nyf  :2) + &
                   dyf(2:nxf+1:2,2:nyf+1:2) )
 
-             zetac(1:nyc,1:nxc)  = qrt      * ( &
+             zetac(1:nxc,1:nyc)  = qrt      * ( &
                   zetaf(1:nxf  :2,1:nyf  :2)  + &
                   zetaf(1:nxf  :2,2:nyf+1:2)  + &
                   zetaf(2:nxf+1:2,1:nyf  :2)  + &
                   zetaf(2:nxf+1:2,2:nyf+1:2)  )
 
-             hc(1:nyc,1:nxc)  = qrt      * ( &
+             hc(1:nxc,1:nyc)  = qrt      * ( &
                   hf(1:nxf  :2,1:nyf  :2)  + &
                   hf(1:nxf  :2,2:nyf+1:2)  + &
                   hf(2:nxf+1:2,1:nyf  :2)  + &
@@ -160,11 +157,11 @@ contains
        zwc => grid(lev)%zw
 
        ! Compute zr and zw
-       call setup_zr_zw                    (  & 
-               hlim,nhtheta_b,nhtheta_s,     &
-               grid(lev)%zeta,grid(lev)%h,   &  ! input args
-               grid(lev)%zr, grid(lev)%zw,   &  ! output args
-               coord_type='new_s_coord'      )    ! optional
+       call setup_zr_zw                (  & 
+            hlim,nhtheta_b,nhtheta_s,     &
+            grid(lev)%zeta,grid(lev)%h,   &  ! input args
+            grid(lev)%zr, grid(lev)%zw,   &  ! output args
+            coord_type='new_s_coord'      )  ! optional
 
        if (netcdf_output) then
           call write_netcdf(grid(lev)%dx  ,vname='dx'  ,netcdf_file_name='dx.nc'  ,rank=myrank,iter=lev)
@@ -495,7 +492,7 @@ contains
                + hlf * (hlf * (zr(i  ,j+2,k) - zr(i  ,j  ,k)) / dy(i  ,j+1)) * dx(i  ,j+1) & 
                - hlf * (hlf * (zr(i  ,j  ,k) - zr(i  ,j-2,k)) / dy(i  ,j-1)) * dx(i  ,j-1) &
                - cA(4,i,j,k) - cA(4,i,j+1,k) &
-               - cA(7,i,j,k) - cA(7,k+1,j,i) &
+               - cA(7,i,j,k) - cA(7,i+1,j,k) &
                - cA(6,i+1,j,k-1)           &
                - cA(8,i,j,k)               &
                - cA(3,i,j+1,k-1)           &

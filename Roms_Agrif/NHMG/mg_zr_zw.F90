@@ -24,13 +24,13 @@ contains
 
     integer(kind=ip):: i,j,k
 
-    nz = size(zr,dim=1)
+    nz = size(zr,dim=3)
     nh = abs(lbound(zr,dim=2)-1) ! Assume that "one" is the first indice !
     !                            !  1 -> nh = 0  <= abs( 1-1) = 0
     !                            !  0 -> nh = 1  <= abs( 0-1) = 1
     !                            ! -1 -> nh = 2  <= abs(-1-1) = 2
     ny = size(zr,dim=2) - 2*nh
-    nx = size(zr,dim=3) - 2*nh
+    nx = size(zr,dim=1) - 2*nh
 
     do k = 1,nz
        do j = 1-nh,ny+nh
@@ -82,13 +82,13 @@ contains
        coord = 'new_s_coord'
     endif
 
-    nz = size(zr,dim=1)
+    nz = size(zr,dim=3)
     nh = abs(lbound(zr,dim=2)-1) ! Assume that "one" is the first indice !
     !                            !  1 -> nh = 0  <= abs( 1-1) = 0
     !                            !  0 -> nh = 1  <= abs( 0-1) = 1
     !                            ! -1 -> nh = 2  <= abs(-1-1) = 2
     ny = size(zr,dim=2) - 2*nh
-    nx = size(zr,dim=3) - 2*nh
+    nx = size(zr,dim=1) - 2*nh
 
     ! vertical coordinate
 

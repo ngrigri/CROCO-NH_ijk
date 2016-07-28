@@ -190,9 +190,9 @@ contains
     else !!Homogenous Neumann
        do ih = 1, nh
           if (ih == 1) then
-             a2D(1:ny,nx+1) = a2D(1:ny,nx)
+             a2D(nx+1,1:ny) = a2D(nx,1:ny)
           elseif(ih == 2) then
-             a2D(1:ny,nx+2) = 2._rp * a2D(1:ny,nx) - a2D(1:ny,nx-1)
+             a2D(nx+2,1:ny) = 2._rp * a2D(nx,1:ny) - a2D(nx-1,1:ny)
           else
              stop
           endif
@@ -502,7 +502,7 @@ contains
 
     nx = grid(lev)%nx
     ny = grid(lev)%ny
-    nz = size(p,dim=1)
+    nz = size(p,dim=3)
 
     nh = 1
 

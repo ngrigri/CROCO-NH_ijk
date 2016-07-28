@@ -174,8 +174,8 @@ contains
     do it = 1,nsweeps
 
        do rb = 1, 2 ! Red black loop
-          do j = 1, ny
 
+          do j = 1, ny
              do i = 1+mod(j+rb,2),nx,2
 
                 call relax_3D_8_heart(p,b,cA,i,j,nz)
@@ -437,6 +437,7 @@ contains
     k=1 !lower level
     do j = 1,ny
        do i = 1,nx
+
           r(i,j,k) = b(i,j,k)                                                        &
                - cA(1,i  ,j  ,k  ) * p(i  ,j  ,k  )                                  &
                - cA(2,i  ,j  ,k+1) * p(i  ,j  ,k+1)                                  &
