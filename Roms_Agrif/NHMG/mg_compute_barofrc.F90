@@ -75,18 +75,20 @@ contains
           do i = 1,nx+1
              ru(i,j) = ru(i,j) - hlf*(dz(i,j,k)+dz(i-1,j,k)) / dxu(i,j) *(p(i,j,k)-p(i-1,j,k))
           enddo
-          ru(i,j) = ru(i,j)/dt
        enddo
     enddo
+
+    ru(:,:) = ru(:,:)/dt
 
     do k = 1,nz
        do j = 1,ny+1 
           do i = 0,nx+1
              rv(i,j) = rv(i,j) - hlf*(dz(i,j,k)+dz(i,j-1,k)) / dyv(i,j) *(p(i,j,k)-p(i,j-1,k))
           enddo
-          rv(i,j) = rv(i,j)/dt
        enddo
     enddo
+
+    rv(:,:) = rv(:,:)/dt
 
     deallocate(dz)
     deallocate(dxu)
