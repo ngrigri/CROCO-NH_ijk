@@ -63,15 +63,17 @@ contains
   end subroutine nhydro_matrices
 
   !--------------------------------------------------------------
-  subroutine nhydro_solve(nx,ny,nz,ua,va,wa,rua,rva)
+  subroutine nhydro_solve(nx,ny,nz,ua,va,wa,dt,rua,rva)
 
     integer(kind=ip), intent(in) :: nx, ny, nz
 
     real(kind=rp), dimension(1:nx+1,0:ny+1,1:nz), target, intent(inout) :: ua
     real(kind=rp), dimension(0:nx+1,1:ny+1,1:nz), target, intent(inout) :: va
     real(kind=rp), dimension(0:nx+1,0:ny+1,0:nz), target, intent(inout) :: wa
-    real(kind=rp), dimension(1:nx+1,0:ny+1),      target, intent(out)   :: rua
-    real(kind=rp), dimension(0:nx+1,1:ny+1),      target, intent(out)   :: rva
+
+    real(kind=rp)                                  , optional, intent(in)  :: dt
+    real(kind=rp), dimension(1:nx+1,0:ny+1), target, optional, intent(out) :: rua
+    real(kind=rp), dimension(0:nx+1,1:ny+1), target, optional, intent(out) :: rva
 
     real(kind=rp), dimension(:,:,:), pointer :: u, v, w
     real(kind=rp), dimension(:,:)  , pointer :: ru, rv
@@ -93,8 +95,6 @@ contains
     u => ua
     v => va
     w => wa
-    ru => rua
-    rv => rva
 
     if (netcdf_output) then
        call write_netcdf(u,vname='uin',netcdf_file_name='uin.nc',rank=myrank,iter=iter_solve)
@@ -128,12 +128,16 @@ contains
        call write_netcdf(w,vname='wout',netcdf_file_name='wout.nc',rank=myrank,iter=iter_solve)
     endif
 
-    !- step 4 -
-    call compute_barofrc(ru,rv)
+    if ((present(dt)).and.(present(rua)).and.(present(rva))) then
+       ru => rua
+       rv => rva
+       !- step 4 -
+       call compute_barofrc(dt,ru,rv)
 
-    if (netcdf_output) then
-       call write_netcdf(ru,vname='ru',netcdf_file_name='ru.nc',rank=myrank,iter=iter_solve)
-       call write_netcdf(rv,vname='rv',netcdf_file_name='rv.nc',rank=myrank,iter=iter_solve)
+       if (netcdf_output) then
+          call write_netcdf(ru,vname='ru',netcdf_file_name='ru.nc',rank=myrank,iter=iter_solve)
+          call write_netcdf(rv,vname='rv',netcdf_file_name='rv.nc',rank=myrank,iter=iter_solve)
+       endif
     endif
 
     if (associated(u)) u => null()
@@ -142,8 +146,6 @@ contains
 
     call toc(1,'nhydro_solve')	
 
-    if (myrank==0) write(*,*)' nhydro_solve end !!!'
- 
   end subroutine nhydro_solve
 
   !--------------------------------------------------------------

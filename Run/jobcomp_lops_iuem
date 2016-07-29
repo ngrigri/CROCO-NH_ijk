@@ -124,7 +124,7 @@ if [[ $OS == Linux ]] ; then           # ===== LINUX =====
 		CFT1=ifort
 		FFLAGS1="-O3 -72 -fno-alias -i4 -r8 -fp-model precise -xHost $NETCDFINC"
 		echo $FFLAGS1
-        FFLAGSNH="-g -fast $NETCDFINC"
+        FFLAGSNH="-O3 -72 -fno-alias -i4 -r8 -fp-model precise -xHost $NETCDFINC"
         echo $FFLAGSNH
 		LDFLAGS1="$LDFLAGS1"
 	elif [[ $LINUX_FC == gfortran ]] ; then

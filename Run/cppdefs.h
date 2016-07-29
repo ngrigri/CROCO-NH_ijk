@@ -17,11 +17,11 @@
 #undef  CANYON_A        /* Canyon_A Example */
 #undef  CANYON_B        /* Canyon_B Example */
 #undef  EQUATOR         /* Equator Example  */
-#undef  GRAV_ADJ        /* Gravitational Adjustment Example */
+#undef  GRAV_ADJ        /* Graviational Adjustment Example */
 #undef  INNERSHELF      /* Inner Shelf Example */
 #undef  RIVER           /* River run-off Example */
 #undef  OVERFLOW        /* Graviational/Overflow Example */
-#undef  SEAMOUNT        /* Seamount Example */
+#define  SEAMOUNT        /* Seamount Example */
 #undef  SHELFRONT       /* Shelf Front Example */
 #undef  SOLITON         /* Equatorial Rossby Wave Example */
 #undef  UPWELLING       /* Upwelling Example */
@@ -33,7 +33,7 @@
 #undef  SHOREFACE       /* Shoreface Test Case on a Planar Beach */
 #undef  SWASH           /* Swash Test Case on a Planar Beach */
 #undef  THACKER         /* Thacker wetting-drying Example */
-#define  TANK            /* Tank Example */
+#undef  TANK            /* Tank Example */
 #undef  REGIONAL        /* REGIONAL Applications */
 
 
@@ -405,7 +405,7 @@
 # else
 #  define UV_VIS2
 # endif
-# define NHMG
+# undef NHMG
 # define SOLVE3D
 # define NEW_S_COORD
 # define UV_ADV
@@ -588,7 +588,7 @@
 !                       ======== =======
 */
 # undef OPENMP
-# undef MPI
+# define MPI
 # define UV_ADV
 # define UV_COR
 # define SOLVE3D
@@ -603,6 +603,14 @@
 # define ANA_SRFLUX
 # define ANA_BTFLUX
 # define ANA_BSFLUX
+
+# define NHMG
+
+# define LMD_MIXING
+# define LMD_SKPP
+# define LMD_BKPP
+# define LMD_RIMIX
+# define LMD_CONVEC
 
 # elif defined SHELFRONT
 /*
@@ -976,25 +984,32 @@
 ! free-surface flows. 
 ! Int. J. Numer. Methods Fluids 42, 929–952.
 */
-# define  MPI
-# undef NBQ
+/*# undef  MPI
+# define NBQ
 # ifdef NBQ
 #  undef  NBQ_IMP
 #  undef  DEBUG_NBQ
 # endif
-# define NHMG
 # define SOLVE3D
-# define NEW_S_COORD
 # undef  MASKING
-# define  UV_ADV
+# undef  UV_ADV
+# define NEW_S_COORD
 # define ANA_GRID
 # define ANA_INITIAL
 # define ANA_BTFLUX
 # define ANA_SMFLUX
 # define ANA_SRFLUX
 # define ANA_STFLUX
+*/
 
-
+# define MPI
+# define NHMG
+# define SOLVE3D
+# define NEW_S_COORD
+# define MASKING
+# define UV_ADV
+# define ANA_GRID
+# define ANA_INITIAL
 # define ANA_SMFLUX
 # define ANA_STFLUX
 # define ANA_BTFLUX

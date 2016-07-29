@@ -489,6 +489,7 @@ c$$$     & hc,theta_b,theta_s)
      & u(1:Lm+1,0:Mm+1,1:N,nnew),
      & v(0:Lm+1,1:Mm+1,1:N,nnew),
      & wz(0:Lm+1,0:Mm+1,0:N,nnew),
+     & dt,
      & rufrc_nhmg(1:Lm+1,0:Mm+1),
      & rvfrc_nhmg(0:Lm+1,1:Mm+1) )
 
