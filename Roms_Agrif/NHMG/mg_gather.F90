@@ -85,7 +85,7 @@ contains
           do i=1,nx
              jj = 1+m*ny
              do j=1,ny
-                y(ii,jj) = buffer(j,i,l,m)
+                y(ii,jj) = buffer(i,j,l,m)
                 jj=jj+1
              enddo
              ii=ii+1
@@ -165,7 +165,7 @@ contains
              jj = 1+m*ny
              do j=1,ny
                 do k=1,nz
-                   y(ii,jj,k) = buffer(k,j,i,l,m)
+                   y(ii,jj,k) = buffer(i,j,k,l,m)
                 enddo
                 jj=jj+1
              enddo

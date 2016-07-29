@@ -664,8 +664,8 @@ contains
           ny = ny/ngy ! ngy is 1 or 2 (and generally 2)
           allocate(grid(lev)%dummy3(0:nx+1,0:ny+1,nz))
 
-          allocate(grid(lev)%gatherbuffer2D(0:ny+1,0:nx+1,0:ngx-1,0:ngy-1))
-          allocate(grid(lev)%gatherbuffer(nz,0:ny+1,0:nx+1,0:ngx-1,0:ngy-1))
+          allocate(grid(lev)%gatherbuffer2D(0:nx+1,0:ny+1,0:ngx-1,0:ngy-1))
+          allocate(grid(lev)%gatherbuffer(0:nx+1,0:ny+1,nz,0:ngx-1,0:ngy-1))
 
           ! number of elements of dummy3
           grid(lev)%Ng2D=(nx+2)*(ny+2)

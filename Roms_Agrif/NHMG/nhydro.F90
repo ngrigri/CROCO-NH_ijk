@@ -143,8 +143,6 @@ contains
     call toc(1,'nhydro_solve')	
 
     if (myrank==0) write(*,*)' nhydro_solve end !!!'
-
-    stop
  
   end subroutine nhydro_solve
 

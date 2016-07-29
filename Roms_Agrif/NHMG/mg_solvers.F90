@@ -58,8 +58,6 @@ contains
     res0   = rnorm/bnorm
     rnorm0 = res0
 
-    if (myrank==0) write(*,*)'bnorm:', bnorm, 'rnorm0:', rnorm0
-
     if (myrank == 0) write(100,*) rnorm0, nite
 
     do while ((nite < maxite).and.(res0 > tol))
