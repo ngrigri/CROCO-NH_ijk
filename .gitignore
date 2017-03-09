@@ -1,34 +1,14 @@
-# Line starting with '#' are commented.
-# Ignore roms
-roms
-roms_dbg
-# Ignore all files *~
-*~
-# Ignore all files *.mod
-*.mod
-# Ignore all files *.o
-*.o
-# Ignore all files *.log
+# Logs and databases #
+######################
 *.log
-# Ignore all files *.nc
-*.nc
-# Ignore all files *.pdf
-*.pdf
-# Ignore all files *.swp
-*.swp
-# Ignore files starting with fort.*
-fort.*
-# Ignore profiling files
-gmon.out
-*.dot
-# Ignore all files *.png
-*.png
-# Ignore all files *.txt
-*.txt
-# Ignore all files *.dump
-*.dump
-# Ignore all files *.output
 *.output
-# Ignore COMPILER-GENERATED INTERFACE MODULE
-*__genmod*
-# script end #
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store*
+
+# Misc               #
+######################
+doc/build
