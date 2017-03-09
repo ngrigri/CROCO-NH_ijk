@@ -703,24 +703,24 @@
       do k=1,N
          do j=Jstr,Jend
             do i=Istr,Iend+1
-               nhdu(i,j,k,iprec1) = grid(1)%du(k,j,i)/dt !stored as a trend
-               u(i,j,k,nnew) = u(i,j,k,nnew) + grid(1)%du(k,j,i)
+               nhdu(i,j,k,iprec1) = grid(1)%du(i,j,k)/dt !stored as a trend ! ijk
+               u(i,j,k,nnew) = u(i,j,k,nnew) + grid(1)%du(i,j,k) ! ijk
      &              /(0.5*(Hz(i,j,k) + Hz(i-1,j,k))) * pn_u(i,j)
             enddo
          enddo
 
          do j=Jstr,Jend+1
             do i=Istr,Iend
-               nhdv(i,j,k,iprec1) = grid(1)%dv(k,j,i)/dt !stored as a trend
-               v(i,j,k,nnew) = v(i,j,k,nnew) + grid(1)%dv(k,j,i)
+               nhdv(i,j,k,iprec1) = grid(1)%dv(i,j,k)/dt !stored as a trend ! ijk
+               v(i,j,k,nnew) = v(i,j,k,nnew) + grid(1)%dv(i,j,k) ! ijk
      &              /(0.5*(Hz(i,j,k) + Hz(i,j-1,k))) * pm_v(i,j)
             enddo
          enddo
 
          do j=Jstr,Jend
             do i=Istr,Iend
-               nhdw(i,j,k,iprec1) = grid(1)%dw(k+1,j,i)/dt !stored as a trend
-               wz(i,j,k,nnew) = wz(i,j,k,nnew) + grid(1)%dw(k+1,j,i)
+               nhdw(i,j,k,iprec1) = grid(1)%dw(i,j,k+1)/dt !stored as a trend ! ijk
+               wz(i,j,k,nnew) = wz(i,j,k,nnew) + grid(1)%dw(i,j,k+1) ! ijk
      &              * (pm(i,j)*pn(i,j))
             enddo
          enddo
