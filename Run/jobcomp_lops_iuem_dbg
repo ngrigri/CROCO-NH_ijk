@@ -2,17 +2,20 @@
 ####################################################
 #               COMPILATION JOB                    #
 ####################################################
-#
-# set source, compilation and run directories
-#
+
 . /opt/linux/modules/tcl/init/bash.in
 module unload intel mpich2 netcdf
 module load intel/12.1 mpich2/1.5-intel12 netcdf/4.1.3-intel12
 module list
 
-SOURCE=../Roms_Agrif
-SCRDIR=/local/tmp/1/${LOGNAME}/CROCO-NH_ijk/Compile
+#
+# set source, compilation and run directories
+#
+SOURCE=../OCEAN
+#SCRDIR=./Compile
+SCRDIR=/local/tmp/1/${LOGNAME}/CROCO-NH/Compile
 RUNDIR=`pwd`
+ROOT_DIR=$SOURCE/..
 
 #
 # determine operating system
@@ -42,16 +45,22 @@ MPIINC="-I/opt/linux/mpich2/1.5-intel12.1/include"
 #
 # set OASIS-MCT (or OASIS3) directories if needed
 #
-PRISM_ROOT_DIR=../../oasis3-mct/compile_oa3-mct
+PRISM_ROOT_DIR=../../../oasis3-mct/compile_oa3-mct
 
 #
 # set XIOS directory if needed
 #
 XIOS_ROOT_DIR=$HOME/xios-1.0
+#
 
-########################################################
-############## END OF USER'S MODIFICATIONS #############
-########################################################
+#
+# set NHMG directory if needed
+#
+NHMGLIB="-L${HOME}/CROCO-NH/NHMG/lib -lnhmg"
+NHMGINC="-I${HOME}/CROCO-NH/NHMG/include"
+
+# END OF USER'S MODIFICATIONS
+####################################################
 #
 # Use GNU Make command
 #
@@ -64,7 +73,7 @@ mkdir $SCRDIR
 #
 # AGRIF sources directory
 #
-AGRIF_SRC=${SOURCE}/AGRIF
+AGRIF_SRC=${ROOT_DIR}/AGRIF
 #
 # copy SOURCE code
 #
@@ -77,23 +86,15 @@ AGRIF_SRC=${SOURCE}/AGRIF
 /bin/cp -f ${SOURCE}/jobcomp $SCRDIR
 /bin/cp -f ${SOURCE}/amr.in $SCRDIR
 /bin/cp -RLf ${AGRIF_SRC} $SCRDIR
-/bin/cp -f ${SOURCE}/XIOS/*.F $SCRDIR
-/bin/cp -f ${SOURCE}/PISCES/* $SCRDIR
-/bin/cp -f ${SOURCE}/PISCES/kRGB61* $RUNDIR
-/bin/cp -f ${SOURCE}/NHMG/* $SCRDIR
+/bin/cp -f ${ROOT_DIR}/XIOS/*.F $SCRDIR
+/bin/cp -f ${ROOT_DIR}/PISCES/* $SCRDIR
+/bin/cp -f ${ROOT_DIR}/PISCES/kRGB61* $RUNDIR
 
 if [[ -e "namelist_pisces" ]] ; then
 	echo "  file namelist_pisces exists in Run directory"
 else
 	/bin/cp -f ${SOURCE}/PISCES/namelist_pisces* $RUNDIR
 	echo "  file namelist_pisces copied from source directory"
-fi
-
-if [[ -e "nh_namelist" ]] ; then
-	echo "  file nh_namelist exists in Run directory"
-else
-	/bin/cp -f ${SOURCE}/NHMG/nh_namelist $RUNDIR
-	echo "  file nh_namelist copied from source directory"
 fi
 
 #
@@ -123,9 +124,6 @@ if [[ $OS == Linux ]] ; then           # ===== LINUX =====
 		CPP1="cpp -traditional -DLinux -DIfort"
 		CFT1=ifort
 		FFLAGS1="-i4 -r8 -fp-model precise -g -O0 -check all -traceback -warn unused -debug variable_locations $NETCDFINC"
-        echo $FFLAGS1
-        FFLAGSNH="-g -O0 -check all -traceback -warn unused -debug variable_locations $NETCDFINC"
-        echo $FFLAGSNH
 		LDFLAGS1="$LDFLAGS1 -g -O0 -check all -traceback -auto"
 	elif [[ $LINUX_FC == gfortran ]] ; then
 		CPP1="cpp -traditional -DLinux"
@@ -219,6 +217,18 @@ if $($CPP1 testkeys.F | grep -i -q nbqisdefined) ; then
 	echo " => NBQ activated"
 	COMPILENBQ=TRUE
 	LDFLAGS1="-lblas -llapack $LDFLAGS1"
+	FFLAGS1="$FFLAGS1 -ffree-line-length-none"
+fi
+#
+# determine if NHMG is required
+#
+unset COMPILENHMG
+echo "Checking COMPILENHMG..."
+if $($CPP1 testkeys.F | grep -i -q nhmgisdefined) ; then
+	echo " => NHMG activated"
+	COMPILENHMG=TRUE
+	LDFLAGS1="$NHMGLIB $LDFLAGS1"
+	FFLAGS1="$NHMGINC $FFLAGS1"
 fi
 #
 # determine if XIOS compilation is required
@@ -361,7 +371,6 @@ fi
 #
 rm -f Makedefs
 echo 's?$(FFLAGS1)?'$FFLAGS1'?g' > flags.tmp
-echo 's?$(FFLAGSNH)?'$FFLAGSNH'?g' >> flags.tmp
 echo 's?$(LDFLAGS1)?'$LDFLAGS1'?g' >> flags.tmp
 echo 's?$(CPP1)?'$CPP1'?g' >> flags.tmp
 echo 's?$(CFT1)?'$CFT1'?g' >> flags.tmp
@@ -370,8 +379,8 @@ sed -f flags.tmp Makedefs.generic > Makedefs
 rm -f flags.tmp
 
 #
-# compile roms
+# compile croco
 #
 $MAKE 
-mv roms $RUNDIR/roms_dbg
+mv croco $RUNDIR
 #
